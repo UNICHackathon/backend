@@ -3,7 +3,7 @@ import env from './env.js'; // Import your custom environment variables
 import BOC_API from './controllers/BOC_API.js';
 
 dotenv.config(); // Initialize dotenv
-
-const api = new BOC_API();
-
-api.getUserAccountDetails(351012345671);
+ // Create an instance of the BOC_API class
+BOC_API.getUserAccountDetails("351012345671");
+BOC_API.getAccountBalance("351012345671");
+BOC_API.getUserBankStatement("351012345671", "22/08/2018", "22/08/2024", 10);
