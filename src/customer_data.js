@@ -15,6 +15,6 @@ export const getCustomersMap = (callback) => {
       return map;
     }, {});
 
-    callback(null, customersMap);
+    callback(null, customersMap); // Return the customers map
   });
 };

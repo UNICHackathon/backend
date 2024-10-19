@@ -1,4 +1,4 @@
-import { getCustomersMap } from "./customer_data.js";
+import { getCustomersMap } from "../src/customer_data.js";
 
 class Customer {
   constructor(account) {
@@ -51,7 +51,7 @@ class Customer {
   }
 }
 
-getCustomersMap((err, customersMap) => {
+getCustomersArray((err, customersMap) => {
   if (err) {
     console.error("Error:", err);
     return;
@@ -61,5 +61,5 @@ getCustomersMap((err, customersMap) => {
     (obj) => new Customer(obj.account)
   );
 
-  console.log("Customers Array:", customersArray);
+  return customersArray;
 });
