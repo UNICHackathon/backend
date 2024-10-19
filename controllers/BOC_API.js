@@ -1,4 +1,5 @@
 import axios from "axios";
+import env from "../env.js";
 
 class BOC_API {
   static date_validator(date) {
@@ -19,21 +20,29 @@ class BOC_API {
 
   async getUserAccountDetails(params) {
     try {
-      const response = await axios.get(
-        `https://apis.bankofcyprus.com/df-boc-org-prd/prod/psd2/v2/accounts/${params.accountId}`,
-        {
-          headers: {
-            Authorization: params.authorization,
-            journeyId: params.journeyId,
-            timeStamp: params.timeStamp,
-            subscriptionId: params.subscriptionId,
-            accept: "application/json",
-          },
-        }
-      );
+      let config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `https://sandbox-apis.bankofcyprus.com/df-boc-org-sb/sb/psd2/v1/accounts/${params.accountId}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${env.TOKEN}`,
+          subscriptionId: `${env.SUB_ID}`,
+          journeyId: "dc309183-8ded-47c8-be05-437742fc8d3f",
+          timeStamp: "1729342544",
+          Cookie:
+            "TS013b36ab=0179594e116a346f608698f6482f03ed7409f9196d521ce941a83adbdf8f5e81767d682d2cd22ed2226d05a48aaa899e4e0e346e8b63062febf546ada5b4665487ab367bf8; de2a657d1673ca26a0e0abed5da67a83=c5a7b127c02a76d77fdf4912ee5581c6",
+        },
+      };
 
-      console.log("Response Body:", response.data);
-      return response.data;
+      axios
+        .request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+          throw error
+        });
     } catch (error) {
       console.error("Error fetching user account details:", error.message);
       throw error;
@@ -72,22 +81,22 @@ class BOC_API {
     try {
       const response = await axios.get(
         `https://apis.bankofcyprus.com/df-boc-org-prd/prod/psd2/v2/accounts/${params.accountId}/balance`,
-         {
-            headers: {
-                Authorization: params.authorization,
-                journeyId: params.journeyId,
-                timeStamp: params.timeStamp,
-                subscriptionId: params.subscriptionId,
-                accept: "application/json",
-            },
-         }
+        {
+          headers: {
+            Authorization: params.authorization,
+            journeyId: params.journeyId,
+            timeStamp: params.timeStamp,
+            subscriptionId: params.subscriptionId,
+            accept: "application/json",
+          },
+        }
       );
 
       console.log("Response Body:", response.data);
       return response.data;
     } catch (error) {
-        console.error("Error fetching user account details:", error.message);
-        throw error;
+      console.error("Error fetching user account details:", error.message);
+      throw error;
     }
   }
 }
