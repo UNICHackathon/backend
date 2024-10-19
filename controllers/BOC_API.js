@@ -12,7 +12,7 @@ class BOC_API {
     };
   }
 
-  async getUserAccountDetails({ accountId }) {
+  static async getUserAccountDetails({ accountId }) {
     try {
       const config = {
         method: "get",
@@ -29,7 +29,7 @@ class BOC_API {
     }
   }
 
-  async getUserBankStatement({ accountId }, startDate, endDate, maxCount = 10) {
+  static async getUserBankStatement({ accountId }, startDate, endDate, maxCount = 10) {
     try {
       const config = {
         method: "get",
@@ -46,7 +46,7 @@ class BOC_API {
     }
   }
 
-  async getAccountBalance({ accountId }) {
+  static async getAccountBalance({ accountId }) {
     try {
       const config = {
         method: "get",
