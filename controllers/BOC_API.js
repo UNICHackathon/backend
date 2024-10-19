@@ -44,26 +44,53 @@ class BOC_API {
   async getUserBankStatement(params, start_date, end_date, max_count = 10) {
     // date format = 1/8/2082
     try {
-        if(BOC_API.date_validator(start_date) && BOC_API.date_validator(end_date)){
-            const response = await axios.get(
-                `https://apis.bankofcyprus.com/df-boc-org-prd/prod/psd2/v2/accounts/${params.accountId}/statement?startDate=${start_date}&endDate=${end_date}&maxCount=${max_count}`,
-                {
-                headers: {
-                    Authorization: params.authorization,
-                    journeyId: params.journeyId,
-                    timeStamp: params.timeStamp,
-                    correlationId: params.correlationId,
-                    subscriptionId: params.subscriptionId,
-                    accept: "application/json",
-                },
-                }
-            );
-            console.log("Response Body:", response.data);
-            return response.data;
-        }
+      if (
+        BOC_API.date_validator(start_date) &&
+        BOC_API.date_validator(end_date)
+      ) {
+        const response = await axios.get(
+          `https://apis.bankofcyprus.com/df-boc-org-prd/prod/psd2/v2/accounts/${params.accountId}/statement?startDate=${start_date}&endDate=${end_date}&maxCount=${max_count}`,
+          {
+            headers: {
+              Authorization: params.authorization,
+              journeyId: params.journeyId,
+              timeStamp: params.timeStamp,
+              correlationId: params.correlationId,
+              subscriptionId: params.subscriptionId,
+              accept: "application/json",
+            },
+          }
+        );
+        console.log("Response Body:", response.data);
+        return response.data;
+      }
     } catch (error) {
       console.error("Error fetching user account statement:", error.message);
       throw error;
+    }
+  }
+
+  async getAccountBalance(params) {
+    try {
+      const response = await axios.get(
+        `https://apis.bankofcyprus.com/df-boc-org-prd/prod/psd2/v2/accounts/${params.accountId}/balance`,
+         {
+            headers: {
+                Authorization: params.authorization,
+                journeyId: params.journeyId,
+                timeStamp: params.timeStamp,
+                correlationId: params.correlationId,
+                subscriptionId: params.subscriptionId,
+                accept: "application/json",
+            },
+         }
+      );
+
+      console.log("Response Body:", response.data);
+      return response.data;
+    } catch (error) {
+        console.error("Error fetching user account details:", error.message);
+        throw error;
     }
   }
 }
