@@ -12,7 +12,7 @@ class BOC_API {
     };
   }
 
-  static async getUserAccountDetails({ accountId }) {
+  static async getUserAccountDetails(accountId) {
     try {
       const config = {
         method: "get",
@@ -29,14 +29,13 @@ class BOC_API {
     }
   }
 
-  static async getUserBankStatement({ accountId }, startDate, endDate, maxCount = 10) {
+  static async getUserBankStatement(accountId, startDate, endDate, maxCount = 10) {
     try {
       const config = {
         method: "get",
-        url: `https://apis.bankofcyprus.com/df-boc-org-prd/prod/psd2/v2/accounts/${accountId}/statement?startDate=${startDate}&endDate=${endDate}&maxCount=${maxCount}`,
+        url: `https://sandbox-apis.bankofcyprus.com/df-boc-org-sb/sb/psd2/v1/accounts/${accountId}/statement?startDate=${startDate}&endDate=${endDate}&maxCount=${maxCount}`,
         headers: BOC_API.headers(),
       };
-
       const response = await axios.request(config);
       console.log("Response Body:", response.data);
       return response.data;
@@ -46,11 +45,11 @@ class BOC_API {
     }
   }
 
-  static async getAccountBalance({ accountId }) {
+  static async getAccountBalance(accountId) {
     try {
       const config = {
         method: "get",
-        url: `https://apis.bankofcyprus.com/df-boc-org-prd/prod/psd2/v2/accounts/${accountId}/balance`,
+        url: `https://sandbox-apis.bankofcyprus.com/df-boc-org-sb/sb/psd2/v1/accounts/${accountId}/balance`,
         headers: BOC_API.headers(),
       };
 
