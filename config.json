@@ -1,0 +1,11 @@
+{
+    "auth": {
+      "apiKey": "AAIgOTgyMGJkZjU0YTQ2NDRkYWNlNDM1OTdkZTc2YTgxZjJUfKFn0o140yqFQDUVS3AzlGMoG5l5i1ZvF7rkSUgbbopO0Ug0ZA8vNTX7QPrntR6Ma2Qoqki5XhksSqhftKyC",
+      "journeyId": "abc",
+      "subscriptionId": "Subid000001-1729335360783"
+    },
+    "api": {
+      "baseUrl": "https://apis.bankofcyprus.com/df-boc-org-prd/prod/psd2/v2/"
+    }
+  }
+  
