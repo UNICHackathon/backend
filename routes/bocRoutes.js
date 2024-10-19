@@ -29,7 +29,8 @@ router.get("/balance/:accountId", async (req, res) => {
 router.get("/statements/:accountId", async (req, res) => {
   try {
     const accountId = req.params.accountId;
-    const { startDate, endDate } = req.query; // Use query params for dates
+    const startDate = req.query.start_date;
+    const endDate = req.query.end_date;
 
     const data = await BOC_API.getUserBankStatement(
       { accountId },
