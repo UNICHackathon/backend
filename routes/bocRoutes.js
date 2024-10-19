@@ -1,78 +1,46 @@
 import { Router } from 'express';
 import BOC_API from '../controllers/BOC_API.js';
-import env from '../env.js';
 
 const router = Router();
 
+// Route to get user account details
 router.get("/account/:accountId", async (req, res) => {
   try {
     const accountId = req.params.accountId;
-    const data = await BOC_API.getUserAccountDetails({
-      accountId,
-      authorization: req.headers.authorization, // Pass token from headers
-      journeyId: "abc", 
-      timeStamp: "554370977", // The time stamp when the request was sent to system
-      subscriptionId: env.SUB_ID, //Subscription ID of a subscriber
-    });
-
+    const data = await BOC_API.getUserAccountDetails({ accountId });
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-router.get("/balance/:accountId", async (req,res) => {
-    try{
-        const accountId = req.params.accountId;
+// Route to get account balance
+router.get("/balance/:accountId", async (req, res) => {
+  try {
+    const accountId = req.params.accountId;
+    const data = await BOC_API.getAccountBalance({ accountId });
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
-        const data = await BOC_API.getAccountBalance({
-            accountId,
-            authorization: req.headers.authorization, // Pass token from headers
-            journeyId: "abc", 
-            timeStamp: "554370977", // The time stamp when the request was sent to system
-            subscriptionId: env.SUB_ID, //Subscription ID of a subscriber
-        })
+// Route to get user bank statements
+router.get("/statements/:accountId", async (req, res) => {
+  try {
+    const accountId = req.params.accountId;
+    const { startDate, endDate } = req.query; // Use query params for dates
 
-        res.json(data)
-    }catch (error){
-        res.status(500).json({error: error.message});
-    }
-})
+    const data = await BOC_API.getUserBankStatement(
+      { accountId },
+      startDate,
+      endDate
+    );
 
-router.get("/statements/:accountId", async (req,res,date_params) => {
-    try{
-        const accountId = req.params.accountId;
-
-        const data = await BOC_API.getUserBankStatement({
-            accountId,
-            authorization: req.headers.authorization, // Pass token from headers
-            journeyId: "abc", 
-            timeStamp: "554370977", // The time stamp when the request was sent to system
-            subscriptionId: env.SUB_ID, //Subscription ID of a subscriber
-        },date_params.start_date,date_params.end_date);
-
-        res.json(data)
-    }catch (error){
-        res.status(500).json({error: error.message});
-    }
-})
-
-router.get("/balance/:accountId", async(req,res) => {
-    try {
-        const accountId = req.params.accountId;
-
-        const data = await BOC_API.getUserBankStatement({
-            accountId,
-            authorization: req.headers.authorization, // Pass token from headers
-            journeyId: "abc", 
-            timeStamp: "554370977", // The time stamp when the request was sent to system
-            subscriptionId: env.SUB_ID, //Subscription ID of a subscriber
-        })
-
-        res.json(data)
-    } catch (error) {
-        res.status(500).json({error: error.message});
-    }
-})
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 export default router;
