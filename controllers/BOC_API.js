@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from "axios";
 
 class BOC_API {
   static date_validator(date) {
@@ -92,4 +92,4 @@ class BOC_API {
   }
 }
 
-module.exports = BOC_API;
+export default BOC_API;
