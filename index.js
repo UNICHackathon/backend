@@ -1,19 +1,19 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const userRoutes = require('./routes/users');
+import express from 'express';
+import dotenv from 'dotenv';
+import bocRoutes from './routes/bocRoutes.js';
 
-dotenv.config(); // Load environment variables from .env file
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(express.json()); // Parse JSON requests
+app.use(express.json());
 
 // Routes
-app.use('/api/users', userRoutes);
+app.use('/api', bocRoutes);
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

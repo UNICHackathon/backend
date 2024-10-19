@@ -1,11 +1,11 @@
-const express = require("express");
-const router = express.Router();
-const BOC_API = require("../controllers/BOC_API");
+import { Router } from 'express';
+import BOC_API from '../controllers/BOC_API.js';
+
+const router = Router();
 
 router.get("/account/:accountId", async (req, res) => {
   try {
     const accountId = req.params.accountId;
-
     const data = await BOC_API.getUserAccountDetails({
       accountId,
       authorization: req.headers.authorization, // Pass token from headers
@@ -74,4 +74,4 @@ router.get("/balance/:accountId", async(req,res) => {
     }
 })
 
-module.exports = router;
+export default router;
