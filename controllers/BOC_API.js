@@ -20,7 +20,7 @@ class BOC_API {
 
   async getUserAccountDetails(params) {
     try {
-      let config = {
+      const config = {
         method: "get",
         maxBodyLength: Infinity,
         url: `https://sandbox-apis.bankofcyprus.com/df-boc-org-sb/sb/psd2/v1/accounts/${params.accountId}`,
@@ -35,14 +35,9 @@ class BOC_API {
         },
       };
 
-      axios
-        .request(config)
-        .then((response) => {
-          console.log(JSON.stringify(response.data));
-        })
-        .catch((error) => {
-          throw error
-        });
+      const response = await axios.request(config);
+      console.log("Response Body:", response.data);
+      return response.data;
     } catch (error) {
       console.error("Error fetching user account details:", error.message);
       throw error;
@@ -50,24 +45,25 @@ class BOC_API {
   }
 
   async getUserBankStatement(params, start_date, end_date, max_count = 10) {
-    // date format = 1/8/2082
     try {
       if (
         BOC_API.date_validator(start_date) &&
         BOC_API.date_validator(end_date)
       ) {
-        const response = await axios.get(
-          `https://apis.bankofcyprus.com/df-boc-org-prd/prod/psd2/v2/accounts/${params.accountId}/statement?startDate=${start_date}&endDate=${end_date}&maxCount=${max_count}`,
-          {
-            headers: {
-              Authorization: params.authorization,
-              journeyId: params.journeyId,
-              timeStamp: params.timeStamp,
-              subscriptionId: params.subscriptionId,
-              accept: "application/json",
-            },
-          }
-        );
+        const config = {
+          method: "get",
+          url: `https://apis.bankofcyprus.com/df-boc-org-prd/prod/psd2/v2/accounts/${params.accountId}/statement`,
+          params: { startDate: start_date, endDate: end_date, maxCount: max_count },
+          headers: {
+            Authorization: params.authorization,
+            journeyId: params.journeyId,
+            timeStamp: params.timeStamp,
+            subscriptionId: params.subscriptionId,
+            accept: "application/json",
+          },
+        };
+
+        const response = await axios.request(config);
         console.log("Response Body:", response.data);
         return response.data;
       }
@@ -79,23 +75,23 @@ class BOC_API {
 
   async getAccountBalance(params) {
     try {
-      const response = await axios.get(
-        `https://apis.bankofcyprus.com/df-boc-org-prd/prod/psd2/v2/accounts/${params.accountId}/balance`,
-        {
-          headers: {
-            Authorization: params.authorization,
-            journeyId: params.journeyId,
-            timeStamp: params.timeStamp,
-            subscriptionId: params.subscriptionId,
-            accept: "application/json",
-          },
-        }
-      );
+      const config = {
+        method: "get",
+        url: `https://apis.bankofcyprus.com/df-boc-org-prd/prod/psd2/v2/accounts/${params.accountId}/balance`,
+        headers: {
+          Authorization: params.authorization,
+          journeyId: params.journeyId,
+          timeStamp: params.timeStamp,
+          subscriptionId: params.subscriptionId,
+          accept: "application/json",
+        },
+      };
 
+      const response = await axios.request(config);
       console.log("Response Body:", response.data);
       return response.data;
     } catch (error) {
-      console.error("Error fetching user account details:", error.message);
+      console.error("Error fetching account balance:", error.message);
       throw error;
     }
   }
