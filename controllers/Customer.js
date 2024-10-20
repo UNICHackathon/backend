@@ -14,6 +14,10 @@ class Customer {
   }
 
   // Getters
+  get accountName() {
+    return this._accountName;
+  }
+
   get bankId() {
     return this._bankId;
   }
@@ -42,6 +46,7 @@ class Customer {
     return {
       bankId: this.bankId,
       accountId: this.accountId,
+      accountName: this._accountName,
       accountAlias: this.accountAlias,
       IBAN: this.IBAN,
       currency: this.currency,
