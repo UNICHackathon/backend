@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import bocRoutes from './routes/bocRoutes.js';
+//import bocRoutes from './routes/bocRoutes.js';
+import customerRoutes from './routes/customersRoutes.js';
 
 
 dotenv.config();
@@ -17,7 +18,8 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use('/api', bocRoutes);
+// app.use('/api', bocRoutes);
+app.use('/customer',customerRoutes)
 
 // Start the server and Ngrok tunnel
 app.listen(PORT, async () => {
