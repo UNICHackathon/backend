@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 //import bocRoutes from './routes/bocRoutes.js';
 import customerRoutes from './routes/customersRoutes.js';
-
 
 dotenv.config();
 
@@ -12,9 +12,11 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(express.json()); // Parse JSON requests
 
+app.use(cors());
+
 // Define a route for the root path
 app.get("/", (req, res) => {
-  res.send("Welcome to the API!"); // A simple welcome message
+  res.send({ message: "Welcome to the API!" }); // A simple welcome message
 });
 
 // Routes
