@@ -82,7 +82,6 @@ env.*
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
-data.json
 .parcel-cache
 
 # Next.js build output
