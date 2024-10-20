@@ -1,10 +1,14 @@
-import dotenv from 'dotenv'; // Load environment variables
-import env from './env.js'; // Import your custom environment variables
-import BOC_API from './controllers/BOC_API.js';
-import { response } from 'express';
+import axios from "axios";
 
-dotenv.config(); // Initialize dotenv
- // Create an instance of the BOC_API class
-BOC_API.getUserAccountDetails("351012345671");
-BOC_API.getAccountBalance("351012345671");
-BOC_API.getUserBankStatement("351012345671", "22/08/2018", "22/08/2024", 10);
+const customer = (async () => {
+  try {
+    const accountId = 351012345671;
+    const response = await axios.get(
+      `https://c28e-212-31-102-105.ngrok-free.app/customer/details/${accountId}`
+    );
+
+    console.log(response.data); // Log the response data
+  } catch (error) {
+    console.error("Error fetching customer details:", error.message);
+  }
+})();
