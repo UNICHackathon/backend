@@ -1,16 +1,15 @@
-// Import required modules
+// customerRoutes.js
 import { Router } from 'express';
-import { Customer } from '../controllers/Customer.js';
-import { getCustomersMap } from '../src/customer_data.js';
+import { Customer, fetchCustomersMap } from '../controllers/Customer.js';
 
 const router = Router();
 let customersArray = [];
 
-// Load customers into memory on server start
+// Function to load customers into the array
 const loadCustomers = async () => {
   try {
     const customersMap = await new Promise((resolve, reject) => {
-      getCustomersMap((err, result) => {
+      fetchCustomersMap((err, result) => {
         if (err) reject(err);
         else resolve(result);
       });
@@ -25,7 +24,6 @@ const loadCustomers = async () => {
   }
 };
 
-// Call loadCustomers when the server starts
 loadCustomers();
 
 // Middleware to find a customer by accountId
@@ -37,14 +35,13 @@ const findCustomerByAccountId = (req, res, next) => {
     return res.status(404).json({ error: 'Customer not found' });
   }
 
-  req.customer = customer; // Attach customer to the request object
+  req.customer = customer;
   next();
 };
 
 // POST route to validate accountId
 router.post('/validate', (req, res) => {
   const { accountId } = req.body;
-
   const isValid = customersArray.some((c) => c.validateAccountId(accountId));
 
   if (isValid) {
@@ -54,23 +51,20 @@ router.post('/validate', (req, res) => {
   }
 });
 
-
-router.get('/customer/:accountId', findCustomerByAccountId, (req, res) => {
+// GET routes for various customer details
+router.get('/details/:accountId', findCustomerByAccountId, (req, res) => {
   res.json(req.customer.toJSON());
 });
 
-
-router.get('/customer/:accountId/iban', findCustomerByAccountId, (req, res) => {
+router.get('/iban/:accountId', findCustomerByAccountId, (req, res) => {
   res.json({ IBAN: req.customer.IBAN });
 });
 
-
-router.get('/customer/:accountId/balance', findCustomerByAccountId, (req, res) => {
+router.get('/balance/:accountId', findCustomerByAccountId, (req, res) => {
   res.json({ balance: 9999.99, currency: req.customer.currency }); // Mock data
 });
 
-
-router.get('/customers', (req, res) => {
+router.get('/all_customers', (req, res) => {
   res.json(customersArray.map((c) => c.toJSON()));
 });
 
